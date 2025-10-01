@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فرم هوشمند ثبت ملک</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
+
+        :root {
+            --primary-color: #2a6f97; /* A slightly more professional blue */
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --light-gray: #f0f4f8; /* A softer background */
+            --dark-gray: #012a4a; /* A deeper blue for text */
+            --border-color: #ced4da;
+            --secret-bg: #fefae0;
+            --secret-border: #e9c46a;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: var(--light-gray);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 850px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: var(--dark-gray);
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        fieldset {
+            border: none;
+            padding: 0;
+            margin: 0 0 30px 0;
+        }
+
+        legend {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--dark-gray);
+            padding-bottom: 15px;
+            width: 100%;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .col {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-family: 'Vazirmatn', sans-serif;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        input.currency-input {
+            direction: ltr;
+            text-align: right;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(42, 111, 151, 0.2);
+        }
+
+        /* Modern Radio Button Group */
+        .radio-btn-group {
+            display: flex;
+            gap: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 5px;
+        }
+
+        .radio-btn-group label {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            justify-content: center;
+            font-weight: 400; /* Regular weight for labels */
+        }
+
+        .radio-btn-group input[type="radio"] {
+            display: none;
+        }
+
+        .radio-btn-group input[type="radio"]:checked + label {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 700;
+        }
+        
+        /* Checkbox Group */
+        .amenities-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 15px;
+            padding-top: 5px;
+        }
+        .amenities-group label {
+            font-weight: 400;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .amenities-group label:has(input:checked) {
+             background-color: #eaf3f8;
+             border-color: var(--primary-color);
+             color: var(--dark-gray);
+             font-weight: 700;
+        }
+        .amenities-group input[type="checkbox"] {
+            width: auto;
+            margin-left: 8px;
+        }
+        
+        /* File Upload */
+        .file-upload-wrapper {
+            border: 2px dashed var(--primary-color);
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #f7fafd;
+            transition: background-color 0.3s;
+        }
+        .file-upload-wrapper:hover {
+            background-color: #eaf3f8;
+        }
+        .file-upload-wrapper input[type="file"] {
+            display: none;
+        }
+        
+        .secret-fieldset {
+            background-color: var(--secret-bg);
+            border: 1px solid var(--secret-border);
+            border-radius: 12px;
+            padding: 25px;
+        }
+        .secret-fieldset legend {
+            border: none;
+        }
+        
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--dark-gray);
+        }
+        .submit-btn:disabled {
+            background-color: #a0a0a0;
+            cursor: not-allowed;
+        }
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Popup Styles */
+        .popup {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9);
+            background-color: white; padding: 30px 40px; border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); z-index: 1000; text-align: center;
+            opacity: 0; visibility: hidden; transition: all 0.3s;
+        }
+        .popup.show { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
+        .popup-icon { width: 80px; height: 80px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 20px; }
+        .popup-icon.success { background-color: #eaf7ec; }
+        .popup-icon.error { background-color: #fdeeee; }
+        .popup-icon svg { width: 40px; height: 40px; }
+        .popup h2 { margin: 0; font-size: 22px; color: var(--dark-gray); }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>📝 فرم هوشمند ثبت ملک</h1>
+        <form id="property-form" action="YOUR_N8N_WEBHOOK_URL_HERE" method="POST" enctype="multipart/form-data">
+            
+            <fieldset>
+                <legend>🏠 اطلاعات اصلی و عمومی</legend>
+                <div class="row">
+                    <div class="col form-group">
+                        <label>🏷️ نوع عرضه:</label>
+                        <div class="radio-btn-group">
+                            <input type="radio" id="listing_sale" name="listing_type" value="sale" onchange="toggleRentField(this.value)" checked>
+                            <label for="listing_sale">فروش</label>
+                            
+                            <input type="radio" id="listing_rent" name="listing_type" value="rent" onchange="toggleRentField(this.value)">
+                            <label for="listing_rent">اجاره</label>
+                        </div>
+                    </div>
+                    <div class="col form-group">
+                        <label for="property_type">🏗️ نوع ملک:</label>
+                        <select id="property_type" name="property_type" onchange="handlePropertyTypeChange()">
+                            <option value="apartment">آپارتمان</option>
+                            <option value="villa">ویلا</option>
+                            <option value="commercial">تجاری</option>
+                            <option value="land">زمین</option>
+                            <option value="agricultural_land">زمین کشاورزی</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="address">📍 آدرس:</label>
+                    <textarea id="address" name="address" rows="3" placeholder="آدرس دقیق ملک را وارد کنید..."></textarea>
+                </div>
+                <div class="row">
+                    <div class="col form-group">
+                        <label for="price_display">💰 قیمت کل / ودیعه (تومان):</label>
+                        <input type="text" id="price_display" class="currency-input" inputmode="numeric" placeholder="1,000,000,000">
+                        <input type="hidden" id="price" name="price">
+                    </div>
+                    <div class="col form-group" id="monthly_rent_group" style="display: none;">
+                        <label for="monthly_rent_display">💵 اجاره ماهیانه (تومان):</label>
+                        <input type="text" id="monthly_rent_display" class="currency-input" inputmode="numeric" placeholder="5,000,000">
+                        <input type="hidden" id="monthly_rent" name="monthly_rent">
+                    </div>
+                     <div class="col form-group">
+                        <label for="area">📏 متراژ کل (متر مربع):</label>
+                        <input type="text" id="area" name="area" inputmode="numeric" class="numeric-only" placeholder="120">
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset id="building-details-fieldset">
+                <legend>✨ جزئیات تکمیلی ملک</legend>
+                 <div class="row">
+                    <div class="col form-group">
+                        <label for="building_age">📅 سن بنا (نوساز: 0):</label>
+                        <input type="text" id="building_age" name="building_age" inputmode="numeric" class="numeric-only" value="0">
+                    </div>
+                    <div class="col form-group">
+                        <label for="bedrooms">🛏️ تعداد اتاق خواب:</label>
+                        <input type="text" id="bedrooms" name="bedrooms" inputmode="numeric" class="numeric-only" placeholder="2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="room_details">🛋️ جزئیات اتاق‌ها:</label>
+                    <input type="text" id="room_details" name="room_details" placeholder="مثال: یک خواب مستر ۱۸ متر، دو خواب ۱۲ متری">
+                </div>
+                <div class="form-group">
+                    <label for="light_exposure">☀️ نورگیری:</label>
+                    <input type="text" id="light_exposure" name="light_exposure" placeholder="مثال: عالی، از شمال و جنوب">
+                </div>
+                <div class="row">
+                    <div class="col form-group">
+                        <label for="floor">🏢 طبقه:</label>
+                        <input type="text" id="floor" name="floor" inputmode="numeric" class="signed-numeric-only" placeholder="3">
+                    </div>
+                    <div class="col form-group">
+                        <label for="total_floors">🏛️ تعداد کل طبقات:</label>
+                        <input type="text" id="total_floors" name="total_floors" inputmode="numeric" class="numeric-only" placeholder="5">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>✅ امکانات:</label>
+                    <div class="amenities-group">
+                        <label><input type="checkbox" name="amenities" value="elevator" style="width: auto; margin-left: 8px;">🛗 آسانسور</label>
+                        <label><input type="checkbox" name="amenities" value="parking" style="width: auto; margin-left: 8px;">🅿️ پارکینگ</label>
+                        <label><input type="checkbox" name="amenities" value="storage" style="width: auto; margin-left: 8px;">📦 انباری</label>
+                        <label><input type="checkbox" name="amenities" value="balcony" style="width: auto; margin-left: 8px;">🏞️ بالکن</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description">ℹ️ توضیحات تکمیلی:</label>
+                    <textarea id="description" name="description" rows="4" placeholder="جزئیات بیشتر مانند بازسازی، ویو و..."></textarea>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                 <legend>📸 تصاویر ملک</legend>
+                 <div class="form-group">
+                     <div class="file-upload-wrapper" onclick="document.getElementById('property_photos').click();">
+                         <input type="file" id="property_photos" name="property_photos" multiple accept="image/*">
+                         <span id="upload-label">🖼️ برای انتخاب تصاویر کلیک کنید (امکان انتخاب چند عکس)</span>
+                     </div>
+                     <div id="file-list" style="margin-top: 15px; font-size: 0.9em; color: #333;"></div>
+                 </div>
+            </fieldset>
+
+            <fieldset class="secret-fieldset">
+                <legend>🔒 اطلاعات محرمانه مالک</legend>
+                <div class="row">
+                    <div class="col form-group">
+                        <label for="owner_name">👤 نام مالک:</label>
+                        <input type="text" id="owner_name" name="owner_name">
+                    </div>
+                    <div class="col form-group">
+                        <label for="owner_phone">📞 شماره تماس مالک:</label>
+                        <input type="tel" id="owner_phone" name="owner_phone" class="numeric-only" inputmode="numeric">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="secret_notes">🤫 یادداشت‌های محرمانه:</label>
+                    <textarea id="secret_notes" name="secret_notes" rows="3"></textarea>
+                </div>
+            </fieldset>
+            
+            <button type="submit" class="submit-btn" id="submit-button">
+                <span class="spinner" id="spinner"></span>
+                <span id="button-text">ثبت نهایی اطلاعات</span>
+            </button>
+        </form>
+    </div>
+
+    <div class="popup" id="success-popup">
+        <div class="popup-icon success">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 6L9 17L4 12" stroke="#28a745" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h2>عملیات موفقیت آمیز بود</h2>
+    </div>
+
+    <div class="popup" id="error-popup">
+        <div class="popup-icon error">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 6L6 18M6 6L18 18" stroke="#dc3545" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h2>عملیات ناموفق بود</h2>
+    </div>
+
+    <script>
+        // === بخش ۱: توابع مربوط به رابط کاربری فرم ===
+        function toggleRentField(selectedValue) {
+            const rentField = document.getElementById('monthly_rent_group');
+            rentField.style.display = (selectedValue === 'rent') ? 'block' : 'none';
+        }
+
+        function handlePropertyTypeChange() {
+            const propertyType = document.getElementById('property_type').value;
+            const buildingDetailsFieldset = document.getElementById('building-details-fieldset');
+            const isLand = (propertyType === 'land' || propertyType === 'agricultural_land');
+            buildingDetailsFieldset.style.display = isLand ? 'none' : 'block';
+        }
+
+        // === بخش ۲: فرمت کردن زنده مبالغ ===
+        function formatCurrency(displayInput, hiddenInput) {
+            let value = displayInput.value.replace(/\D/g, ''); // فقط عدد
+            hiddenInput.value = value; // ذخیره عدد خالص در فیلد مخفی
+            if (value) {
+                displayInput.value = parseInt(value, 10).toLocaleString('en-US'); // نمایش با جداکننده
+            } else {
+                displayInput.value = '';
+            }
+        }
+
+        // === بخش ۳: اعتبارسنجی و نمایش فایل‌های آپلود شده ===
+        const fileInput = document.getElementById('property_photos');
+        const fileListDiv = document.getElementById('file-list');
+        const uploadLabel = document.getElementById('upload-label');
+        fileInput.addEventListener('change', () => {
+            fileListDiv.innerHTML = '';
+            const validFiles = [];
+            if (fileInput.files.length === 0) {
+                uploadLabel.textContent = '🖼️ برای انتخاب تصاویر کلیک کنید';
+                return;
+            }
+            for (const file of fileInput.files) {
+                if (file.type.startsWith('image/')) {
+                    validFiles.push(file);
+                    const fileItem = document.createElement('span');
+                    fileItem.style.display = 'block';
+                    fileItem.textContent = `✅ ${file.name}`;
+                    fileListDiv.appendChild(fileItem);
+                } else {
+                    alert(`فایل "${file.name}" یک عکس نیست و نادیده گرفته شد.`);
+                }
+            }
+            // Update the input's files to only include valid image files
+            const dataTransfer = new DataTransfer();
+            validFiles.forEach(file => dataTransfer.items.add(file));
+            fileInput.files = dataTransfer.files;
+
+            if (validFiles.length > 0) {
+                uploadLabel.textContent = `${validFiles.length} تصویر معتبر انتخاب شد`;
+            } else {
+                uploadLabel.textContent = '🖼️ برای انتخاب تصاویر کلیک کنید';
+            }
+        });
+
+        // === بخش ۴: اتصال رویدادها و مدیریت ارسال فرم ===
+        document.addEventListener('DOMContentLoaded', function() {
+            handlePropertyTypeChange();
+            toggleRentField(document.querySelector('[name="listing_type"]:checked').value);
+
+            const priceDisplay = document.getElementById('price_display');
+            const priceHidden = document.getElementById('price');
+            const rentDisplay = document.getElementById('monthly_rent_display');
+            const rentHidden = document.getElementById('monthly_rent');
+
+            priceDisplay.addEventListener('input', () => formatCurrency(priceDisplay, priceHidden));
+            rentDisplay.addEventListener('input', () => formatCurrency(rentDisplay, rentHidden));
+
+            document.querySelectorAll('.numeric-only').forEach(input => {
+                input.addEventListener('input', function(e) { this.value = this.value.replace(/\D/g, ''); });
+            });
+            document.querySelector('.signed-numeric-only').addEventListener('input', function(e) {
+                this.value = this.value.replace(/[^\d-]/g, '').replace(/(?!^)-/g, '');
+            });
+
+            // --- Form Submission Logic ---
+            const form = document.getElementById('property-form');
+            const submitButton = document.getElementById('submit-button');
+            const spinner = document.getElementById('spinner');
+            const buttonText = document.getElementById('button-text');
+            const successPopup = document.getElementById('success-popup');
+            const errorPopup = document.getElementById('error-popup');
+
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                submitButton.disabled = true;
+                spinner.style.display = 'block';
+                buttonText.textContent = 'در حال ارسال...';
+                
+                const formData = new FormData(form);
+                
+                try {
+                    const response = await fetch(form.action, { method: 'POST', body: formData });
+                    if (response.ok) {
+                        showPopup(successPopup);
+                        form.reset();
+                        // Reset UI elements after successful submission
+                        handlePropertyTypeChange();
+                        toggleRentField('sale');
+                        fileListDiv.innerHTML = '';
+                        uploadLabel.textContent = '🖼️ برای انتخاب تصاویر کلیک کنید';
+                    } else {
+                        showPopup(errorPopup);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showPopup(errorPopup);
+                } finally {
+                    submitButton.disabled = false;
+                    spinner.style.display = 'none';
+                    buttonText.textContent = 'ثبت نهایی اطلاعات';
+                }
+            });
+
+            function showPopup(popupElement) {
+                popupElement.classList.add('show');
+                setTimeout(() => { popupElement.classList.remove('show'); }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
